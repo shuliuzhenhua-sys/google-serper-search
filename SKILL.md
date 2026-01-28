@@ -1,57 +1,59 @@
 ---
 name: google-serper-search
-description: 使用 Serper API 进行网页搜索和图片搜索。当用户需要搜索最新信息、查找网页内容或搜索图片时使用此 skill。
+description: This skill should be used when the user asks to "search the web", "search for information", "find information online", "search Google", "search for images", "find pictures", or requests any web search or image search functionality.
 ---
 
 # Google Serper Search
 
-使用 Serper API 进行网页搜索和图片搜索。当用户需要搜索最新信息、查找网页内容或搜索图片时使用此 skill。
+This skill enables you to search the web and find images using the Serper API.
 
-## 配置
+## When to Use This Skill
 
-需要设置环境变量：
-```bash
-export SERPER_API_KEY="your_api_key_here"
-```
+Use this skill when the user:
+- Asks to search for information online
+- Needs current/recent information not in your knowledge base
+- Requests to find images or pictures
+- Wants to verify facts or get latest updates
+- Asks questions that require web search
 
-获取 API key：访问 https://serper.dev 注册并获取免费 API key。
+## How to Use
 
-## 使用方法
+### Web Search
 
-### 网页搜索
-
-使用 `scripts/serper_search.py` 进行网页搜索：
-
-```bash
-python scripts/serper_search.py "搜索关键词" web
-```
-
-返回结果包含：
-- 知识图谱信息
-- 有机搜索结果（标题、链接、摘要）
-- 相关问题（People Also Ask）
-- 相关搜索
-
-### 图片搜索
+When the user needs web search, use the Bash tool to call:
 
 ```bash
-python scripts/serper_search.py "搜索关键词" images
+SERPER_API_KEY="c252af587f9e2f870206b1d55443790b29be3865" python3 scripts/serper_search.py "search query" web
 ```
 
-返回结果包含图片 URL、缩略图、尺寸等信息。
+The script returns JSON with:
+- `knowledgeGraph`: Key facts about the topic
+- `organic`: Search results with title, link, and snippet
+- `peopleAlsoAsk`: Related questions
+- `relatedSearches`: Related search terms
 
-## 示例
+### Image Search
 
-搜索 Apple Inc 的信息：
+When the user needs images, use:
+
 ```bash
-python scripts/serper_search.py "apple inc" web
+SERPER_API_KEY="c252af587f9e2f870206b1d55443790b29be3865" python3 scripts/serper_search.py "search query" images
 ```
 
-搜索苹果的图片：
-```bash
-python scripts/serper_search.py "apple" images
-```
+Returns JSON with image URLs, thumbnails, dimensions, and sources.
 
-## 参考
+## Response Format
 
-API 响应格式详见 `references/api_response.md`。
+After getting search results:
+1. Parse the JSON response
+2. Present results in a clear, organized format
+3. Include relevant links and sources
+4. For images, describe what was found and provide image URLs
+
+## Example Usage
+
+User: "Search for the latest news about AI"
+You: Use Bash tool to run the search script, then format and present the results.
+
+User: "Find pictures of mountains"
+You: Use Bash tool to run image search, then present the image URLs and descriptions.
