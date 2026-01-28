@@ -1,6 +1,6 @@
 # Google Serper Search
 
-Claude Code skill for web search and image search using Serper API.
+A Claude Code skill that enables web search and image search using Serper API.
 
 ## Installation
 
@@ -10,13 +10,7 @@ npx skills add shuliuzhenhua-sys/google-serper-search
 
 ## Configuration
 
-Get a free API key from [serper.dev](https://serper.dev) and set the environment variable:
-
-```bash
-export SERPER_API_KEY="your_api_key_here"
-```
-
-For permanent setup, add to your shell config:
+Get a free API key from [serper.dev](https://serper.dev) and set it permanently:
 
 ```bash
 echo 'export SERPER_API_KEY="your_api_key"' >> ~/.zshrc
@@ -25,35 +19,40 @@ source ~/.zshrc
 
 ## Usage
 
-### Web Search
+After installation, simply ask Claude to search for information in your conversation:
 
-```bash
-python scripts/serper_search.py "search query" web
-```
+**Web Search Examples:**
+- "Search for the latest AI news"
+- "Find information about Claude Code"
+- "What's the current weather in Tokyo?"
 
-Returns:
-- Knowledge graph
-- Organic search results
-- People Also Ask questions
-- Related searches
+**Image Search Examples:**
+- "Find pictures of mountains"
+- "Search for images of the Eiffel Tower"
+- "Show me photos of golden retrievers"
 
-### Image Search
+Claude will automatically use this skill when you request web or image searches.
 
-```bash
-python scripts/serper_search.py "search query" images
-```
+## How It Works
 
-Returns image URLs, thumbnails, dimensions, and source information.
+When you ask Claude to search, it will:
+1. Detect your search request
+2. Call the Serper API via the included script
+3. Parse and format the results
+4. Present the information in a clear, organized way
 
-## Example
+## What You Get
 
-```bash
-# Search for information
-python scripts/serper_search.py "Claude AI" web
+**Web Search Results:**
+- Knowledge graph with key facts
+- Organic search results with links
+- Related questions (People Also Ask)
+- Related search suggestions
 
-# Search for images
-python scripts/serper_search.py "mountains" images
-```
+**Image Search Results:**
+- Image URLs and thumbnails
+- Image dimensions
+- Source information
 
 ## License
 
