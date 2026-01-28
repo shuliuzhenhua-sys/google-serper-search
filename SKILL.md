@@ -20,10 +20,16 @@ Use this skill when the user:
 
 ### Web Search
 
-When the user needs web search, use the Bash tool to call:
+When the user needs web search, first `cd` into the skill directory, then run:
 
 ```bash
-SERPER_API_KEY="c252af587f9e2f870206b1d55443790b29be3865" python3 scripts/serper_search.py "search query" web
+SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "search query" web
+```
+
+Alternatively, if the key is already in your environment, just run:
+
+```bash
+python3 scripts/serper_search.py "search query" web
 ```
 
 The script returns JSON with:
@@ -34,10 +40,10 @@ The script returns JSON with:
 
 ### Image Search
 
-When the user needs images, use:
+When the user needs images, first `cd` into the skill directory, then run:
 
 ```bash
-SERPER_API_KEY="c252af587f9e2f870206b1d55443790b29be3865" python3 scripts/serper_search.py "search query" images
+SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "search query" images
 ```
 
 Returns JSON with image URLs, thumbnails, dimensions, and sources.
