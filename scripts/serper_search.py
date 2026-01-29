@@ -4,20 +4,45 @@ import sys
 import json
 import urllib.request
 import urllib.error
+import argparse
 
-def search(query, search_type="web"):
+def search(query, search_type="web", gl=None, hl=None, tbs=None):
     api_key = os.environ.get("SERPER_API_KEY")
     if not api_key:
         return {"error": "SERPER_API_KEY environment variable not set"}
 
-    endpoint = "https://google.serper.dev/search" if search_type == "web" else "https://google.serper.dev/images"
+    # Type 映射
+    type_map = {
+        "search": "search",
+        "images": "images",
+        "videos": "videos",
+        "places": "places",
+        "maps": "maps",
+        "reviews": "reviews",
+        "news": "news",
+        "shopping": "shopping",
+        "lens": "lens",
+        "scholar": "scholar",
+        "patents": "patents",
+        "autocomplete": "autocomplete"
+    }
+    
+    # 确定 Endpoint
+    st = type_map.get(search_type.lower(), "search")
+    endpoint = f"https://google.serper.dev/{st}"
 
     headers = {
         "X-API-KEY": api_key,
         "Content-Type": "application/json"
     }
 
-    data = json.dumps({"q": query}).encode("utf-8")
+    # 构建 Payload
+    payload = {"q": query}
+    if gl: payload["gl"] = gl
+    if hl: payload["hl"] = hl
+    if tbs: payload["tbs"] = tbs
+
+    data = json.dumps(payload).encode("utf-8")
 
     try:
         req = urllib.request.Request(endpoint, data=data, headers=headers, method="POST")
@@ -29,12 +54,25 @@ def search(query, search_type="web"):
         return {"error": str(e)}
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: serper_search.py <query> [web|images]")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Serper.dev Search CLI')
+    parser.add_argument('query', help='Search query')
+    parser.add_argument('--type', default='search', help='Search type (search, images, videos, news, etc.)')
+    parser.add_argument('--gl', help='Country code (e.g. us, cn, jp)')
+    parser.add_argument('--hl', help='Language code (e.g. en, zh-cn)')
+    parser.add_argument('--tbs', help='Date range (qdr:h, qdr:d, qdr:w, qdr:m, qdr:y)')
 
-    query = sys.argv[1]
-    search_type = sys.argv[2] if len(sys.argv) > 2 else "web"
+    args = parser.parse_args()
 
-    result = search(query, search_type)
+    # 处理 Date range 映射
+    tbs_map = {
+        "any time": None,
+        "past hour": "qdr:h",
+        "past 24 hours": "qdr:d",
+        "past week": "qdr:w",
+        "past month": "qdr:m",
+        "past year": "qdr:y"
+    }
+    tbs_val = tbs_map.get(args.tbs.lower()) if args.tbs else args.tbs
+
+    result = search(args.query, args.type, args.gl, args.hl, tbs_val)
     print(json.dumps(result, indent=2, ensure_ascii=False))

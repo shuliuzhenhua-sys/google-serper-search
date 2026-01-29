@@ -18,19 +18,19 @@ Use this skill when the user:
 
 ## How to Use
 
-### Web Search
+### Advanced Search
 
-When the user needs web search, first `cd` into the skill directory, then run:
-
-```bash
-SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "search query" web
-```
-
-Alternatively, if the key is already in your environment, just run:
+You can now use advanced parameters to filter results.
 
 ```bash
-python3 scripts/serper_search.py "search query" web
+SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "query" --type news --gl us --hl en --tbs "past week"
 ```
+
+#### Parameters:
+- **Type (`--type`)**: search, images, videos, places, maps, reviews, news, shopping, lens, scholar, patents, autocomplete.
+- **Country (`--gl`)**: 2-letter country code (e.g., `us`, `cn`, `jp`, `gb`).
+- **Language (`--hl`)**: Google language code (e.g., `en`, `zh-cn`, `zh-tw`, `ja`).
+- **Date range (`--tbs`)**: `past hour`, `past 24 hours`, `past week`, `past month`, `past year`.
 
 The script returns JSON with:
 - `knowledgeGraph`: Key facts about the topic
@@ -40,10 +40,10 @@ The script returns JSON with:
 
 ### Image Search
 
-When the user needs images, first `cd` into the skill directory, then run:
+When the user needs images, run:
 
 ```bash
-SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "search query" images
+SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "search query" --type images
 ```
 
 Returns JSON with image URLs, thumbnails, dimensions, and sources.
