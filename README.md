@@ -33,6 +33,20 @@ After installation, simply ask Claude to search for information in your conversa
 
 Claude will automatically use this skill when you request web or image searches.
 
+### Advanced Parameters (optional)
+
+The search script supports additional parameters for type, country, language, and time range:
+
+```bash
+python3 scripts/serper_search.py "latest AI news" --type news --gl us --hl en --tbs "past week"
+```
+
+Supported values:
+- `--type`: search, images, videos, places, maps, reviews, news, shopping, lens, scholar, patents, autocomplete
+- `--gl`: country code (ISO 3166-1 alpha-2), e.g. `us`, `cn`, `jp`, `gb`
+- `--hl`: language code, e.g. `en`, `zh-cn`, `zh-tw`, `ja`, `ko`
+- `--tbs`: `past hour`, `past 24 hours`, `past week`, `past month`, `past year`
+
 ## How It Works
 
 When you ask Claude to search, it will:
