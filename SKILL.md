@@ -23,7 +23,7 @@ Use this skill when the user:
 You can now use advanced parameters to filter results.
 
 ```bash
-SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "query" --type news --gl us --hl en --tbs "past week"
+python3 scripts/serper_search.py "query" --type news --gl us --hl en --tbs "past week"
 ```
 
 #### Parameters:
@@ -43,7 +43,7 @@ The script returns JSON with:
 When the user needs images, run:
 
 ```bash
-SERPER_API_KEY=$(moltbot config get google.serper_api_key) python3 scripts/serper_search.py "search query" --type images
+python3 scripts/serper_search.py "search query" --type images
 ```
 
 Returns JSON with image URLs, thumbnails, dimensions, and sources.
