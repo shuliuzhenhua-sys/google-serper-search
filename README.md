@@ -10,12 +10,21 @@ npx skills add shuliuzhenhua-sys/google-serper-search
 
 ## Configuration
 
-Get a free API key from [serper.dev](https://serper.dev) and set it permanently:
+Get a free API key from [serper.dev](https://serper.dev) and set it as an environment variable:
 
 ```bash
-echo 'export SERPER_API_KEY="your_api_key"' >> ~/.zshrc
-source ~/.zshrc
+export SERPER_API_KEY="your_api_key"
 ```
+
+To make it permanent, add it to your shell configuration file:
+
+<thinking>
+我需要提供不同 shell 的配置方法。让我列出常见的 shell 配置文件。
+</thinking>
+
+- **Zsh**: `echo 'export SERPER_API_KEY="your_api_key"' >> ~/.zshrc && source ~/.zshrc`
+- **Bash**: `echo 'export SERPER_API_KEY="your_api_key"' >> ~/.bashrc && source ~/.bashrc`
+- **Fish**: `echo 'set -Ux SERPER_API_KEY "your_api_key"' | fish`
 
 ## Usage
 
