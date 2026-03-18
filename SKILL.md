@@ -1,65 +1,92 @@
 ---
 name: google-serper-search
-description: This skill should be used when the user asks to "search the web", "search for information", "find information online", "search Google", "search for images", "find pictures", or requests any web search or image search functionality.
+description: Search the web, news, and images through the Serper API. Use when the user asks to search the web, find current information online, verify recent facts, search Google, find images, or gather search results with source links.
 ---
 
 # Google Serper Search
 
-This skill enables you to search the web and find images using the Serper API.
+Use `scripts/serper_search.py` to call the Serper API and return JSON search results.
 
-## When to Use This Skill
+## Check configuration
 
-Use this skill when the user:
-- Asks to search for information online
-- Needs current/recent information not in your knowledge base
-- Requests to find images or pictures
-- Wants to verify facts or get latest updates
-- Asks questions that require web search
+Confirm `SERPER_API_KEY` is available before searching.
 
-## How to Use
+Run:
 
-### Advanced Search
+```bash
+printenv SERPER_API_KEY
+```
 
-You can now use advanced parameters to filter results.
+If the variable is empty, read [references/configuration.md](references/configuration.md) and set it in the current shell or shell profile before continuing.
+
+## Run searches
+
+Use:
+
+```bash
+python3 scripts/serper_search.py "query"
+```
+
+Use filters when the request needs them:
 
 ```bash
 python3 scripts/serper_search.py "query" --type news --gl us --hl en --tbs "past week"
 ```
 
-#### Parameters:
-- **Type (`--type`)**: search, images, videos, places, maps, reviews, news, shopping, lens, scholar, patents, autocomplete.
-- **Country (`--gl`)**: 2-letter country code (e.g., `us`, `cn`, `jp`, `gb`).
-- **Language (`--hl`)**: Google language code (e.g., `en`, `zh-cn`, `zh-tw`, `ja`).
-- **Date range (`--tbs`)**: `past hour`, `past 24 hours`, `past week`, `past month`, `past year`.
+Supported `--type` values:
 
-The script returns JSON with:
-- `knowledgeGraph`: Key facts about the topic
-- `organic`: Search results with title, link, and snippet
-- `peopleAlsoAsk`: Related questions
-- `relatedSearches`: Related search terms
+- `search`
+- `images`
+- `videos`
+- `places`
+- `maps`
+- `reviews`
+- `news`
+- `shopping`
+- `lens`
+- `scholar`
+- `patents`
+- `autocomplete`
 
-### Image Search
+Aliases:
 
-When the user needs images, run:
+- `web` -> `search`
+- `image` -> `images`
+- `img` -> `images`
 
-```bash
-python3 scripts/serper_search.py "search query" --type images
-```
+Supported `--tbs` shortcuts:
 
-Returns JSON with image URLs, thumbnails, dimensions, and sources.
+- `past hour`
+- `past 24 hours`
+- `past week`
+- `past month`
+- `past year`
 
-## Response Format
+Use `--gl` for country and `--hl` for language when the request needs regional or language-specific results.
 
-After getting search results:
-1. Parse the JSON response
-2. Present results in a clear, organized format
-3. Include relevant links and sources
-4. For images, describe what was found and provide image URLs
+## Interpret results
 
-## Example Usage
+Read [references/api_response.md](references/api_response.md) when you need the result schema.
 
-User: "Search for the latest news about AI"
-You: Use Bash tool to run the search script, then format and present the results.
+For web and news results, prioritize:
 
-User: "Find pictures of mountains"
-You: Use Bash tool to run image search, then present the image URLs and descriptions.
+- `knowledgeGraph`
+- `organic`
+- `peopleAlsoAsk`
+- `relatedSearches`
+
+For image results, prioritize:
+
+- image title
+- `imageUrl`
+- `thumbnailUrl`
+- dimensions
+- source page
+
+## Present the answer
+
+Summarize the most relevant results instead of dumping raw JSON unless the user asks for the raw response.
+
+Include source links in the final answer.
+
+Call out missing configuration or API errors explicitly when the script returns an `error` field.
